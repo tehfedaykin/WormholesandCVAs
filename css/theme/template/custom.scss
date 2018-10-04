@@ -1,0 +1,52 @@
+.twitter-overlay {
+	position: absolute;
+	bottom: 5%;
+	left: 5%;
+	display: block;
+	width: 50%;
+	span {
+		font-family: 'Source Sans Pro', Helvetica, sans-serif;;
+		color: #D3D3D3;
+		display: inline-block;
+		margin-right: 2.5%;
+		float: left;
+	}
+}
+.speaker-title {
+	display: flex;
+	.flex-1 {
+		flex: 1;
+		.circle {
+			border-radius: 50%;
+			width: 70%;
+		}
+	}
+	.flex-2 {
+		flex: 2;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+}
+
+.small {
+	font-size: 80% !important;
+}
+
+.smaller {
+	font-size: 60% !important;
+}
+
+.scaled {
+	width: 50%;
+}
+
+.really-scaled {
+	width: 30%;
+}
+
+.kc-overlay {
+  position: absolute;
+  top: 25%;
+  left: 35%;
+}
