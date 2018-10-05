@@ -478,7 +478,7 @@
 							 style="stroke-width:0.97063118000000004;fill:none;stroke:#ffffff" />
 
 					</svg>
-					<svg height="25" width="23" transform='translate(125 -360), scale(2)'>
+					<svg height="25" width="23" transform='translate(-415 -310), scale(2)'>
 						<polygon points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78"
 						style="fill:#ffd055"
 
@@ -668,7 +668,7 @@ this.onChanges();
 						</pre>
 					</section>
 					<section id="1-step-1">
-						<h2>Step One</h2>
+						<h3>Step One</h3>
 						<p>Subscribe to changes on the field that determines other fields' requiredness</p>
 					</section>
 					<section id="1-step-1-code">
@@ -682,7 +682,7 @@ onChanges() {
 						</pre>
 					</section>
 					<section id="1-step-2">
-						<h2>Step Two</h2>
+						<h3>Step Two</h3>
 						<p>Get fields control and use setValidators method.</p>
 					</section>
 					<section id="1-step-2-code">
@@ -703,7 +703,7 @@ onChanges() {
 						</pre>
 					</section>
 					<section id="1-step-3">
-						<h2>Step Three</h2>
+						<h3>Step Three</h3>
 						<p>Update changed fields validity.</p>
 					</section>
 					<section id="1-step-3-code">
@@ -725,13 +725,70 @@ onChanges() {
 							</code>
 						</pre>
 					</section>
-					<section id="highlight-invalid">
-						<h3>Highlight invalid + untouched fields on form save</h3>
-
+					<section id="1-prepoluation">
+						<h3>What if...</h3>
+						<p>an option was supposed to be preselected based on data?</p>
+						<pre class="fragment">
+							<code data-trim data-noescape>
+onChanges() {
+  this.recipeForm.get('category').valueChanges.subscribe(val => {
+    const subCategoryControl = this.recipeForm.get('subcategory');
+    subCategoryControl.patchValue('my prepoulated data here');
+  });
+}
+							</code>
+						</pre>
 					</section>
-					<section id="problem-1-tipsntricks">
-						<h2>Tips and Tricks</h2>
-						<p>Emit false</p>
+					<section id="problem-1-validation">
+						<h3>How 'bout some validation ya'll?</h3>
+						<img class="plain" src="img/avril-excited.gif" alt="Avril excited">
+					</section>
+					<section id="problem-1-css">
+						<h3>Angular validation classes</h3>
+						<pre>
+							<code>
+.ng-valid
+.ng-invalid
+.ng-pending
+.ng-pristine
+.ng-dirty
+.ng-untouched
+.ng-touched
+							</code>
+						</pre>
+					</section>
+					<section id="angular-heavy-lifting">
+						<h3>We'll Let Angular Do the Heavy Lifting</h3>
+						<img class="plain" src="img/avril-kiss.gif" alt="">
+					</section>
+					<section id="preferred-validation-style">
+						<h3>My Preferred Validation</h3>
+						<pre>
+							<code>
+.ng-valid[required], .ng-valid.required  {
+	border-left: 5px solid #42A948; /* green */
+}
+.ng-touched.ng-invalid:not(form)  {
+	border-left: 5px solid #a94442; /* red */
+}
+							</code>
+						</pre>
+						<p>I like to highlight as the user touches fields, but then highlight required untouched fields on save.</p>
+					</section>
+					<section id="problem-1-highlight-untouched-code">
+						<h3>This means we need to highlight invalid untouched fields on save</h3>
+						<p class="fragment">We can do this pretty easily by marking them as touched.</p>
+					</section>
+					<section id="problem-1-highlight-untouched-code">
+						<h2>Highlight untouched fields</h2>
+						<pre>
+							<code>
+Object.keys(this.recipeForm.controls).forEach(field => {
+  const control = this.recipeForm.get(field);
+  control.markAsTouched({ onlySelf: true });
+})
+							</code>
+						</pre>
 					</section>
 				</section>
 				<!----------------------------------------->
@@ -739,26 +796,72 @@ onChanges() {
 					<section id="problem-2-overview">
 						<h2>Problem 2: I need custom validation rules</h2>
 					</section>
+					<section id="basic-validation">
+						<h3>Basic required validation</h3>
+						<pre>
+							<code>const control = new FormControl('some value', {
+  validators: Validators.required
+});
+							</code>
+						</pre>
+						<p>We have several built-in validators at our disposal:
+							<br /><span class="small">min(), max(), required(), requiredTrue(), email(),
+							minLength(), maxLength(), pattern(), nullValidator(), compose(),
+							composeAsync()</span>
+						</p>
+					</section>
+					<section id="pattern-validation">
+						<h3>Pattern validation two ways!</h3>
+						<pre>
+							<code>const control = new FormControl('some value', {
+	validators: Validators.pattern('[0-9]{5}')
+});
+
+const myDatePattern = "^\\d{2}\/\\d{2}\/\\d{4}$";
+const otherControl = new FormControl('some value', {
+  validators: Validators.pattern(myDatePattern)
+});
+							</code>
+						</pre>
+						<p>Note the double escaping - the Regex needs a string representation of \d.
+							<br /><span class="small">This trolled the crap out of me at one point in time.</span></p>
+					</section>
 					<section id="regex">
 						<h2>Who doesn't love a good date regex?</h2>
 						<img class="plain" src="img/scully-facepalm.gif" alt="">
+						<p class="small"><a href="https://regexcrossword.com/">Regex Crossword games - enjoy</a></p>
 					</section>
-					<section id="problem-2-tipsntricks">
-						<h2>Tips and Tricks</h2>
-						<p>Regex pattern weirdness</p>
+					<section id="function-validation">
+						<h3>Function validation</h3>
+						<pre>
+							<code>amountValidator(c: FormControl) {
+  return c.value > 340 ? null : {
+    validAmount: {
+      valid: false
+    }
+  };
+}
+const control = new FormControl('some value', {
+  validators: [Validators.required, amountValidator]
+});
+
+							</code>
+						</pre>
 					</section>
 				</section>
 
 				<!----------------------------------------->
 				<section id="problem-3">
-					<h2>Problem 3: I need to display one thing in an input field for the user, but submit something else</h2>
-					<p class="fragment">The library I’m using doesn’t play nice with reactive forms.</p>
-				</section>
-				<!----------------------------------------->
-				<section id="cva-overview">
+					<section id="problem-3-overview">
+						<h2>Problem 3: I need to display one thing in an input field for the user, but submit something else</h2>
+						<p class="fragment">Likely use case: the library I’m using doesn’t play nice with reactive forms.</p>
+					</section>
 					<section id="cva-hero">
-						<h2>Enter our hero - the Control Value Accessor</h2>
-						<p class="fragment">Not as scary as it sounds - it's just a way to build a custom input.</p>
+						<h2>Enter our hero - <br />the Control Value Accessor</h2>
+						<div class="fragment">
+							<p>Not as scary as it sounds - it's just a way to build a custom input.</p>
+							<p><i>From the docs: Defines an interface that acts as a bridge between the Angular forms API and a native element in the DOM.</i></p>
+						</div>
 					</section>
 					<section id="cva-interface">
 						<h2>CVA Interface</h2>
@@ -773,40 +876,194 @@ export interface ControlValueAccessor {
 					<section id="writeValue">
 						<h2>writeValue(obj: any)</h2>
 						<pre><code data-trim data-noescape>
-							export interface ControlValueAccessor {
-								<mark>writeValue(obj: any) : void</mark>
-								registerOnChange(fn: any) : void
-								registerOnTouched(fn: any) : void
-							}
+export interface ControlValueAccessor {
+  <mark>writeValue(obj: any) : void</mark>
+  registerOnChange(fn: any) : void
+  registerOnTouched(fn: any) : void
+}
 						</code></pre>
 						<p>Writes new value to the element.</p>
 					</section>
 					<section id="onChange">
 						<h2>registerOnChange(fn: any)</h2>
 						<pre><code data-trim data-noescape>
-							export interface ControlValueAccessor {
-								writeValue(obj: any) : void
-								<mark>registerOnChange(fn: any) : void</mark>
-								registerOnTouched(fn: any) : void
-							}
+export interface ControlValueAccessor {
+  writeValue(obj: any) : void
+  <mark>registerOnChange(fn: any) : void</mark>
+  registerOnTouched(fn: any) : void
+}
 						</code></pre>
 						<p>Registers a callback function that is called when the control's value changes in the UI.</p>
 					</section>
 					<section id="onTouched">
 						<h2>registerOnChange(fn: any)</h2>
 						<pre><code data-trim data-noescape>
-							export interface ControlValueAccessor {
-								writeValue(obj: any) : void
-								registerOnChange(fn: any) : void
-								<mark>registerOnTouched(fn: any) : void</mark>
-							}
+export interface ControlValueAccessor {
+  writeValue(obj: any) : void
+  registerOnChange(fn: any) : void
+  <mark>registerOnTouched(fn: any) : void</mark>
+}
 						</code></pre>
 						<p>Registers a callback function is called by the forms API on initialization to update the form model on blur.</p>
 					</section>
+					<section id="cva-key-concepts">
+						<h3>CVA Key Concepts</h3>
+						<ul>
+							<li>Keep your wrapper components dumb.</li>
+							<li>Leave validation logic to the parent form component.</li>
+						</ul>
+					</section>
+					<section id="cva-party">
+						<h3>Back to our initial problem ...</h3>
+						<img class="plain" src="img/avril-party.gif" alt="Avril excited">
+					</section>
+					<section id="reactive-typeahead">
+						<pre>
+							<code>[{
+  name: 'breakfast',
+  id: 1
+},{
+  name: 'lunch',
+  id: 2
+},
+{
+  name: 'appetizer',
+  id: 3
+}];
+							</code>
+						</pre>
+						<p>I want to <i>display the name</i> in my typeahead and <b>submit the id</b>, but
+							my library doesn't allow for that.</p>
+					</section>
+					<section id="wrap-cva">
+						<h3>Let's wrap it in a component that implements the CVA interface</h3>
+						<img class="plain" src="img/avril-silly.gif" alt="">
+					</section>
+					<section id="cva-wrapper">
+						<h3>Building our wrapper</h3>
+						<pre>
+							<code>import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
+@Component({
+  selector: 'my-typeahead',
+  templateUrl: './typeahead.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => MyTypeaheadComponent),
+      multi: true
+    }
+  ]
+})
+export class MyTypeaheadComponent implements ControlValueAccessor, OnInit {
+  @Input() data: any[];
+  @Input('value') _value = false;
+  onChange: any = () => { };
+  onTouched: any = () => { };
+
+  get value() {
+    return this._value;
+  }
+
+  set value(val) {
+    this._value = val;
+  }
+
+  registerOnChange( fn : any ) : void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched( fn : any ) : void {
+    this.onTouched = fn;
+  }
+
+  writeValue(value) {
+    this.value = value;
+  }
+}
+
+							</code>
+						</pre>
+					</section>
+					<section id="some-html">
+						<h2>sum html</h2>
+						<pre>
+							<code>&lt;ng-template #itemTemplate let-model=&quot;item&quot;&gt;
+      {{model[displayVal]}}
+    &lt;/ng-template&gt;
+&lt;input
+  class=&quot;form-control&quot;
+  [(ngModel)]=&quot;selected&quot;
+  [typeahead]=&quot;data&quot;
+  [typeaheadOptionField]=&quot;displayVal&quot;
+  [typeaheadItemTemplate]=&quot;itemTemplate&quot;
+  [typeaheadMinLength]=&quot;0&quot;
+  (typeaheadOnSelect)=&quot;onSelect($event)&quot;
+  (blur)=&quot;onBlur($event)&quot;
+&gt;
+
+							</code>
+						</pre>
+						<p>(Using the <a href="https://valor-software.com/ngx-bootstrap/#/typeahead" target="_blank">ngx-bootstrap</a> typeahead component.)</p>
+					</section>
+					<section id="plug-into-form">
+						<h3>Hook into our form</h3>
+						<pre>
+							<code>
+&lt;form [formGroup]=&quot;mealForm&quot;&gt;
+  &lt;div class=&quot;form-group&quot;&gt;
+    &lt;label for=&quot;recipe&quot;&gt;Recipe&lt;/label&gt;
+    &lt;my-typeahead formControlName=&quot;recipe&quot; [data]=&quot;recipes&quot;&gt;&lt;/my-typeahead&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+							</code>
+						</pre>
+					</section>
+					<section id="what-about-prepopulating">
+						<h3>What if I need to prepopulate a value cause I'm editing an existing form?</h3>
+					</section>
+					<section id="cva-value-input">
+						<h3>Setting a value to our wrapper</h3>
+						<pre>
+							<code data-trim data-noescape>
+export class MyTypeaheadComponent implements ControlValueAccessor, OnInit {
+  @Input() data: any[];
+  <mark>@Input('value') _value = false;</mark>
+  onChange: any = () => { };
+  onTouched: any = () => { };
+
+  get value() {
+    return this._value;
+  }
+
+  set value(val) {
+    this._value = val;
+  }
+
+  registerOnChange( fn : any ) : void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched( fn : any ) : void {
+    this.onTouched = fn;
+  }
+
+  writeValue(value) {
+    this.value = value;
+  }
+}
+
+							</code>
+						</pre>
+					</section>
+					<section id="good-for-more">
+						<h3>Good for more than just random library components!</h3>
+						<p>You can use the CVA to create reusable form elements instead of
+							drowning in eventEmitter soup!</p>
+					</section>
 				</section>
-				<section id="reactive-typeahead">
-					<h3>Select Typeahead</h3>
-				</section>
+				<!----------------------------------------->
 				<section id="reactive-datepicker">
 					<h3>Datepicker</h3>
 				</section>
@@ -818,6 +1075,29 @@ export interface ControlValueAccessor {
 				<section id="problem-5">
 					<h2>Problem 5: I need to dynamically create and remove from controls & form groups</h2>
 				</section>
+				<!----------------------------------------->
+				<section id="tipsntricks">
+					<section id="tipsntricks-overview">
+						<h2>Tips and Tricks</h2>
+						<img class="plain" src="img/avril-wink.gif" alt="">
+					</section>
+					<section id="emitEvent-false">
+						<p>You can get into some sketchy situations listening for formControl
+							changes and acting on them.</p>
+							<div class="fragment">
+								<pre>
+									<code>
+	patchValue(value: any, opts: {
+	onlySelf?: boolean;
+	emitEvent?: boolean;
+	} = {}): void
+									</code>
+								</pre>
+								<p>Take advantage of the options param and don't emit an event on your changes.</p>
+							</div>
+					</section>
+				</section>
+				<!----------------------------------------->
 				<section id="summary">
 
 				</section>
@@ -842,6 +1122,8 @@ export interface ControlValueAccessor {
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				width: 1280,
+				height: 800,
 				history: true,
 				display: 'block',
 				progress: true,
