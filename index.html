@@ -49,7 +49,10 @@
 						<li>International Speaker</li>
 						<li>Aspiring crazy plant lady</li>
 					</ul>
-					<p class="smaller"> <img class="plain" src="img/mature.png" alt=""> <i>This talk may contain strong language, harsh truths, and serious passion.</i></p>
+					<div class="warning">
+						<img class="plain" src="img/mature.png" alt="">
+						<p class="smaller"> <i>This talk may contain strong language, harsh truths, and serious passion.</i></p>
+					</div>
 				</section>
 				<section id="KC">
 					<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -620,6 +623,14 @@ export class RecipeComponent {
 						<li class="fragment">I need to dynamically create and remove from controls & form groups</li>
 					</ol>
 				</section>
+				<section id="avril-complicated" data-background="img/complicated1.gif">
+
+				</section>
+				<!----------------------------------------->
+				<section id="demo-code">
+					<h2>Demo Code Available:</h2>
+					<p><a target="_blank" href="https://github.com/tehfedaykin/complicated-forms-app">	https://github.com/tehfedaykin/complicated-forms-app</a> </p>
+				</section>
 				<!----------------------------------------->
 				<section id="problem-1">
 					<section id="problem-1-overview">
@@ -874,7 +885,7 @@ export interface ControlValueAccessor {
 						</code></pre>
 					</section>
 					<section id="writeValue">
-						<h2>writeValue(obj: any)</h2>
+						<h2>write Value</h2>
 						<pre><code data-trim data-noescape>
 export interface ControlValueAccessor {
   <mark>writeValue(obj: any) : void</mark>
@@ -885,7 +896,7 @@ export interface ControlValueAccessor {
 						<p>Writes new value to the element.</p>
 					</section>
 					<section id="onChange">
-						<h2>registerOnChange(fn: any)</h2>
+						<h2>register On Change</h2>
 						<pre><code data-trim data-noescape>
 export interface ControlValueAccessor {
   writeValue(obj: any) : void
@@ -896,7 +907,7 @@ export interface ControlValueAccessor {
 						<p>Registers a callback function that is called when the control's value changes in the UI.</p>
 					</section>
 					<section id="onTouched">
-						<h2>registerOnChange(fn: any)</h2>
+						<h2>register On Touched</h2>
 						<pre><code data-trim data-noescape>
 export interface ControlValueAccessor {
   writeValue(obj: any) : void
@@ -906,10 +917,15 @@ export interface ControlValueAccessor {
 						</code></pre>
 						<p>Registers a callback function is called by the forms API on initialization to update the form model on blur.</p>
 					</section>
+					<section id="granular-control">
+						<p>CVA is great for granular control of diplaying to the ui and communicating with the forms API</p>
+						<img class="plain" src="img/avril-do-what-i-want.gif" alt="">
+					</section>
 					<section id="cva-key-concepts">
 						<h3>CVA Key Concepts</h3>
 						<ul>
 							<li>Keep your wrapper components dumb.</li>
+							<li>Just input and output form values!</li>
 							<li>Leave validation logic to the parent form component.</li>
 						</ul>
 					</section>
@@ -958,7 +974,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class MyTypeaheadComponent implements ControlValueAccessor, OnInit {
   @Input() data: any[];
-  @Input('value') _value = false;
+  @Input('value') _value = null;
   onChange: any = () => { };
   onTouched: any = () => { };
 
@@ -1023,13 +1039,13 @@ export class MyTypeaheadComponent implements ControlValueAccessor, OnInit {
 					<section id="what-about-prepopulating">
 						<h3>What if I need to prepopulate a value cause I'm editing an existing form?</h3>
 					</section>
-					<section id="cva-value-input">
-						<h3>Setting a value to our wrapper</h3>
+					<section id="cva-value-input-wrapper">
+						<h3>We already have access to the value in our wrapper!</h3>
 						<pre>
 							<code data-trim data-noescape>
 export class MyTypeaheadComponent implements ControlValueAccessor, OnInit {
   @Input() data: any[];
-  <mark>@Input('value') _value = false;</mark>
+  <mark>@Input('value') _value;</mark>
   onChange: any = () => { };
   onTouched: any = () => { };
 
@@ -1059,21 +1075,204 @@ export class MyTypeaheadComponent implements ControlValueAccessor, OnInit {
 					</section>
 					<section id="good-for-more">
 						<h3>Good for more than just random library components!</h3>
+						<img class="plain" src="img/avril-spray.gif" alt="">
 						<p>You can use the CVA to create reusable form elements instead of
 							drowning in eventEmitter soup!</p>
 					</section>
 				</section>
 				<!----------------------------------------->
-				<section id="reactive-datepicker">
-					<h3>Datepicker</h3>
-				</section>
-				<!----------------------------------------->
 				<section id="problem-4">
-					<h2>Problem 4: I have a bunch of checkboxes and need to submit an array</h2>
+					<section id="problem-4-overview">
+						<h2>Problem 4: I have a bunch of checkboxes and need to submit an array</h2>
+					</section>
+					<section id="problem-4-cva">
+						<h3>Control Value Accessor to the rescue again!</h3>
+						<img class="plain" src="img/avril-prep.gif" alt="">
+					</section>
+					<section id="4-checkbox-component">
+						<h3>Our component CVA implementation</h3>
+						<pre>
+							<code>
+export class MyCheckboxesComponent implements ControlValueAccessor {
+  @Input() data: any[];
+
+  @Input('value') _value = [];
+  onChange: any = () => { };
+  onTouched: any = () => { };
+
+  get value() {
+    return this._value;
+  }
+
+  set value(val) {
+    this._value = val;
+    this.onChange(val);
+    this.onTouched();
+  }
+
+  registerOnChange( fn : any ) : void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched( fn : any ) : void {
+    this.onTouched = fn;
+  }
+
+  writeValue(value:any) {
+    this.value = value;
+  }
+
+  selectCheckbox(checkboxId) {
+    const updatedArray = this.value;
+    updatedArray.push(checkboxId);
+    this.writeValue(updatedArray);
+  }
+
+  removeCheckbox(checkboxId) {
+    var index = this.value.indexOf(checkboxId);
+    if (index > -1) {
+      this.value.splice(index, 1);
+    }
+  }
+
+}
+
+							</code>
+						</pre>
+					</section>
+					<section id="4-checkbox-markup">
+						<h3>Our component markup</h3>
+						<pre>
+							<code>
+&lt;ng-container *ngFor=&quot;let item of data&quot;&gt;
+  &lt;div class=&quot;form-check form-check-inline&quot;&gt;
+    &lt;ng-container *ngIf=&quot;value &amp;&amp; value.includes(item.id)&quot;&gt;
+      &lt;input class=&quot;form-check-input&quot; type=&quot;checkbox&quot; value=&quot;{{item.id}}&quot; checked (click)=removeCheckbox(item.id)&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-container *ngIf=&quot;!value || !value.includes(item.id)&quot;&gt;
+      &lt;input class=&quot;form-check-input&quot; type=&quot;checkbox&quot; value=&quot;{{item.id}}&quot; (click)=selectCheckbox(item.id)&gt;
+    &lt;/ng-container&gt;
+    &lt;label class=&quot;form-check-label&quot; &gt;{{item.name}}&lt;/label&gt;
+  &lt;/div&gt;
+&lt;/ng-container&gt;
+							</code>
+						</pre>
+					</section>
+					<section id="4-checkbox-in-form">
+						<h3>And In Our Form</h3>
+						<pre>
+							<code>
+&lt;my-checkboxes formControlName=&quot;subcategory&quot; [data]=&quot;subcategories&quot;&gt;&lt;/my-checkboxes&gt;
+							</code>
+						</pre>
+						<p>Seem familiar yet?</p>
+					</section>
 				</section>
 				<!----------------------------------------->
 				<section id="problem-5">
-					<h2>Problem 5: I need to dynamically create and remove from controls & form groups</h2>
+					<section id="problem-5-overview">
+						<h2>Problem 5: I need to dynamically create and remove form controls & form groups</h2>
+					</section>
+					<section id="form-image">
+						<img src="img/ingredient-form.png" alt="">
+					</section>
+					<section id="problem-5-component">
+						<h3>Creating the nested form</h3>
+						<pre>
+							<code data-trim data-noescape>
+this.recipeForm = this.fb.group({
+  name: [null, Validators.required],
+  description: [null],
+  source: [null],
+  category: [null],
+  subcategory: [[]],
+  <mark>ingredients: this.fb.array([]),</mark>
+  calories: [null, [Validators.required, this.amountValidator]]
+});
+							</code>
+						</pre>
+					</section>
+					<section id="problem-5-component-add">
+						<h3>Adding a nested form group</h3>
+						<pre>
+							<code data-trim data-noescape>
+public addIngredient() {
+  const ingredientsFormArray = <FormArray>this.recipeForm.controls['ingredients'];
+  const ingredientFormGroup = new FormGroup({
+    name: new FormControl(null, [Validators.required]),
+    amount: new FormControl(null, [Validators.required])
+  });
+  ingredientsFormArray.push(ingredientFormGroup);
+}
+							</code>
+						</pre>
+					</section>
+					<section id="problem-5-component-remove">
+						<h3>Removing a nested form group</h3>
+						<pre>
+							<code data-trim data-noescape>
+public removeIngredient(i) {
+  const ingredientsFormArray = <FormArray>this.recipeForm.controls['ingredients'];
+  ingredientsFormArray.removeAt(i);
+}
+							</code>
+						</pre>
+					</section>
+					<section id="problem-5-markup">
+						<h3>The Markup</h3>
+						<pre>
+							<code data-trim data-noescape>
+&lt;label for=&quot;ingredients&quot;&gt;Ingredients&lt;/label&gt;
+&lt;ng-container *ngFor=&quot;let ingredient of recipeForm.controls['ingredients'].controls; let i = index&quot; &gt;
+  &lt;div [formGroup]=&quot;ingredient&quot; class=&quot;row&quot;&gt;
+    &lt;div class=&quot;form-group col-sm&quot;&gt;
+      &lt;label for=&quot;name&quot;&gt;Name&lt;/label&gt;
+      &lt;input class=&quot;form-control&quot; formControlName=&quot;name&quot; aria-describedby=&quot;name&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group col-sm&quot;&gt;
+      &lt;label for=&quot;amount&quot;&gt;Amount&lt;/label&gt;
+      &lt;input class=&quot;form-control&quot; formControlName=&quot;amount&quot; aria-describedby=&quot;amount&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col-sm&quot;&gt;
+      &lt;button class=&quot;btn btn-danger remove-ingredient&quot; (click)=&quot;removeIngredient(i)&quot;&gt;
+        &lt;fa-icon icon=&quot;times&quot;&gt;&lt;/fa-icon&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/ng-container&gt;
+&lt;div class=&quot;row&quot;&gt;
+  &lt;div class=&quot;col-sm&quot;&gt;
+    &lt;button type=&quot;button&quot; class=&quot;btn btn-success&quot; (click)=&quot;addIngredient()&quot;&gt;Add ingredient&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+							</code>
+						</pre>
+						<p>Make sure to pass the nested formGroup model in!</p>
+					</section>
+					<section id="problem-5-validation">
+						<h3>Uhhhh, howtf do I validate this?</h3>
+						<pre>
+							<code>
+Object.keys(this.recipeForm.controls).forEach(field => {
+  const control = this.recipeForm.get(field);
+
+  if (!control['controls']) {
+    control.markAsTouched({ onlySelf: true });
+  }
+  else {
+    let nestedFormArray = control['controls'];
+    nestedFormArray.forEach(subcCtrlGp => {
+      Object.keys(subcCtrlGp['controls']).forEach(subField => {
+        const nestedControl = subcCtrlGp.get(subField);
+        nestedControl.markAsTouched({ onlySelf: true });
+      });
+    });
+    //can extract this to a recursive function for deeply nested forms
+  }
+})
+							</code>
+						</pre>
+					</section>
 				</section>
 				<!----------------------------------------->
 				<section id="tipsntricks">
@@ -1099,7 +1298,15 @@ export class MyTypeaheadComponent implements ControlValueAccessor, OnInit {
 				</section>
 				<!----------------------------------------->
 				<section id="summary">
-
+					<h2>Summary</h2>
+					<ul>
+						<li class="fragment">Reactive forms - yay</li>
+						<li class="fragment">Custom requiredness and validation is a breeze</li>
+						<li class="fragment">Control Value Accessor solves almost any form issue</li>
+						<li class="fragment">Maybe forms aren't so complicated</li>
+						<li class="fragment">Avril Lavigne is timeless</li>
+					</ul>
+					<p class="fragment">Demo code:<a target="_blank" href="https://github.com/tehfedaykin/complicated-forms-app">	https://github.com/tehfedaykin/complicated-forms-app</a> </p>
 				</section>
 				<!----------------------------------------->
 				<section id="questions">

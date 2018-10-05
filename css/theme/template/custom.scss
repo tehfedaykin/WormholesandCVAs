@@ -18,7 +18,7 @@
 		flex: 1;
 		.circle {
 			border-radius: 50%;
-			width: 70%;
+			width: 60%;
 		}
 	}
 	.flex-2 {
@@ -49,4 +49,19 @@
   position: absolute;
   top: 25%;
   left: 35%;
+}
+
+#me {
+  .warning {
+    margin-top: 2em;
+    display: flex;
+    justify-content: center;
+    img {
+      height: 1.5em;
+      margin: 0 .5em;
+    }
+    p {
+      line-height: 1.5em;
+    }
+  }
 }
