@@ -618,9 +618,9 @@ export class RecipeComponent {
 					<ol>
 						<li class="fragment">I need dynamic required fields</li>
 						<li class="fragment">I need custom validation rules</li>
-						<li class="fragment">I need to display one thing in an input field for the user, but submit something else</li>
-						<li class="fragment">I have a bunch of checkboxes and need to submit an array</li>
-						<li class="fragment">I need to dynamically create and remove from controls & form groups</li>
+						<li class="fragment">I need to display one thing in an input field <br />for the user but submit something else</li>
+						<li class="fragment">I have a bunch of checkboxes and need to <br />submit an array</li>
+						<li class="fragment">I need to dynamically create and remove <br />form controls & form groups</li>
 					</ol>
 				</section>
 				<section id="avril-complicated" data-background="img/complicated1.gif">
@@ -634,11 +634,12 @@ export class RecipeComponent {
 				<!----------------------------------------->
 				<section id="problem-1">
 					<section id="problem-1-overview">
-						<h2>Problem 1: I need dynamic required fields</h2>
-						<p class="fragment">I want certain fields only to be required if other fields are filled in.</p>
+						<h2>Problem 1:</h2>
+						<p class="large">I need dynamic required fields</p>
 					</section>
 					<section id="1-markup">
-						<p>Let's say we only want the subcategories field to be required if categories has a value</p>
+						<p>Let's say we only want the subcategories <br />
+							field to be required if categories has a value</p>
 						<pre>
 							<code data-trim data-noescape>
 &lt;form [formGroup]=&quot;recipeForm&quot; (ngSubmit)=&quot;onSubmit()&quot;&gt;
@@ -655,7 +656,7 @@ export class RecipeComponent {
   &lt;/div&gt;
   &lt;div class=&quot;form-group&quot; *ngIf=&quot;recipeForm.controls.category.value&quot;&gt;
     &lt;label for=&quot;category&quot;&gt;Subcategory&lt;/label&gt;
-    &lt;my-checkboxes formControlName=&quot;subcategory&quot; [data]=&quot;subcategories&quot; displayVal=&quot;name&quot; submitVal=&quot;id&quot;&gt;&lt;/my-checkboxes&gt;
+    &lt;my-checkboxes formControlName=&quot;subcategory&quot; [data]=&quot;subcategories&quot; &gt;&lt;/my-checkboxes&gt;
   &lt;/div&gt;
 &lt;/form&gt;
 							</code>
@@ -671,7 +672,7 @@ this.recipeForm = this.fb.group({
   source: [null],
   url: [null],
   category: [null],
-  subcategory: [[]],
+  <mark>subcategory: [[]],</mark>
   ingredients: this.fb.array([])
 });
 this.onChanges();
@@ -680,7 +681,8 @@ this.onChanges();
 					</section>
 					<section id="1-step-1">
 						<h3>Step One</h3>
-						<p>Subscribe to changes on the field that determines other fields' requiredness</p>
+						<p>Subscribe to changes on the field that <br />
+							determines other fields' requiredness</p>
 					</section>
 					<section id="1-step-1-code">
 						<pre>
@@ -744,7 +746,7 @@ onChanges() {
 onChanges() {
   this.recipeForm.get('category').valueChanges.subscribe(val => {
     const subCategoryControl = this.recipeForm.get('subcategory');
-    subCategoryControl.patchValue('my prepoulated data here');
+    subCategoryControl.patchValue('my prepopulated data here');
   });
 }
 							</code>
@@ -805,7 +807,8 @@ Object.keys(this.recipeForm.controls).forEach(field => {
 				<!----------------------------------------->
 				<section id="problem-2">
 					<section id="problem-2-overview">
-						<h2>Problem 2: I need custom validation rules</h2>
+						<h2>Problem 2:</h2>
+						<p class="large">I need custom validation rules</p>
 					</section>
 					<section id="basic-validation">
 						<h3>Basic required validation</h3>
@@ -815,11 +818,10 @@ Object.keys(this.recipeForm.controls).forEach(field => {
 });
 							</code>
 						</pre>
-						<p>We have several built-in validators at our disposal:
-							<br /><span class="small">min(), max(), required(), requiredTrue(), email(),
-							minLength(), maxLength(), pattern(), nullValidator(), compose(),
-							composeAsync()</span>
-						</p>
+						<p>We have several built-in validators at our disposal:</p>
+						<p class="small">min(), max(), required(), requiredTrue(), email(), minLength(),
+							<br />maxLength(), pattern(), nullValidator(), compose(),
+							composeAsync()</p>
 					</section>
 					<section id="pattern-validation">
 						<h3>Pattern validation two ways!</h3>
@@ -840,7 +842,7 @@ const otherControl = new FormControl('some value', {
 					<section id="regex">
 						<h2>Who doesn't love a good date regex?</h2>
 						<img class="plain" src="img/avril-please-bitch.gif" alt="">
-						<p class="small"><a href="https://regexcrossword.com/">Regex Crossword games - enjoy</a></p>
+						<p class="small"><a target="_blank" href="https://regexcrossword.com/">Regex Crossword games - enjoy</a></p>
 					</section>
 					<section id="function-validation">
 						<h3>Function validation</h3>
@@ -864,13 +866,16 @@ const control = new FormControl('some value', {
 				<!----------------------------------------->
 				<section id="problem-3">
 					<section id="problem-3-overview">
-						<h2>Problem 3: I need to display one thing in an input field for the user, but submit something else</h2>
-						<p class="fragment">Likely use case: the library I’m using doesn’t play nice with reactive forms.</p>
+						<h2>Problem 3:</h2>
+						<p class="large">I need to display one thing in an input field
+							<br />for the user but submit something else</p>
+						<p class="fragment"><i><b>Likely use case:</b> the library I’m
+							<br />using doesn’t play nice with reactive forms.</i></p>
 					</section>
 					<section id="cva-hero">
 						<h2>Enter our hero - <br />the Control Value Accessor</h2>
 						<div class="fragment">
-							<p>Not as scary as it sounds - it's just a way to build a custom input.</p>
+							<p><br />Not as scary as it sounds - it's just a way to build a custom input.<br /></p>
 							<p><i>From the docs: Defines an interface that acts as a bridge between the Angular forms API and a native element in the DOM.</i></p>
 						</div>
 					</section>
@@ -893,7 +898,7 @@ export interface ControlValueAccessor {
   registerOnTouched(fn: any) : void
 }
 						</code></pre>
-						<p>Writes new value to the element.</p>
+						<p><br />Writes new value to the element.</p>
 					</section>
 					<section id="onChange">
 						<h2>register On Change</h2>
@@ -904,7 +909,8 @@ export interface ControlValueAccessor {
   registerOnTouched(fn: any) : void
 }
 						</code></pre>
-						<p>Registers a callback function that is called when the control's value changes in the UI.</p>
+						<p><br />Registers a callback function that is called when
+							<br />the control's value changes in the UI.</p>
 					</section>
 					<section id="onTouched">
 						<h2>register On Touched</h2>
@@ -915,10 +921,12 @@ export interface ControlValueAccessor {
   <mark>registerOnTouched(fn: any) : void</mark>
 }
 						</code></pre>
-						<p>Registers a callback function is called by the forms API on initialization to update the form model on blur.</p>
+						<p><br />Registers a callback function is called by the forms
+							<br />API on initialization to update the form model on blur.</p>
 					</section>
 					<section id="granular-control">
-						<p>CVA is great for granular control of diplaying to the ui and communicating with the forms API</p>
+						<p>CVA is great for granular control of diplaying
+							<br />to the UI and communicating with the forms API</p>
 						<img class="plain" src="img/avril-do-what-i-want.gif" alt="">
 					</section>
 					<section id="cva-key-concepts">
@@ -934,6 +942,8 @@ export interface ControlValueAccessor {
 						<img class="plain" src="img/avril-party.gif" alt="Avril excited">
 					</section>
 					<section id="reactive-typeahead">
+						<p>I want to <i>display the name</i> in my typeahead and<br />
+						<b>submit the id</b>, but my library doesn't allow for that.<br /></p>
 						<pre>
 							<code>[{
   name: 'breakfast',
@@ -948,11 +958,11 @@ export interface ControlValueAccessor {
 }];
 							</code>
 						</pre>
-						<p>I want to <i>display the name</i> in my typeahead and <b>submit the id</b>, but
-							my library doesn't allow for that.</p>
+
 					</section>
 					<section id="wrap-cva">
-						<h3>Let's wrap it in a component that implements the CVA interface</h3>
+						<h3>Let's wrap it in a component
+							<br />that implements the CVA interface</h3>
 						<img class="plain" src="img/avril-silly.gif" alt="">
 					</section>
 					<section id="cva-wrapper">
@@ -1037,10 +1047,12 @@ export class MyTypeaheadComponent implements ControlValueAccessor, OnInit {
 						</pre>
 					</section>
 					<section id="what-about-prepopulating">
-						<h3>What if I need to prepopulate a value cause I'm editing an existing form?</h3>
+						<h3>What if I need to prepopulate a value
+							<br />because I'm editing an existing form?</h3>
 					</section>
 					<section id="cva-value-input-wrapper">
-						<h3>We already have access to the value in our wrapper!</h3>
+						<h3>We already have access to the
+							<br />value in our wrapper!</h3>
 						<pre>
 							<code data-trim data-noescape>
 export class MyTypeaheadComponent implements ControlValueAccessor, OnInit {
@@ -1074,16 +1086,19 @@ export class MyTypeaheadComponent implements ControlValueAccessor, OnInit {
 						</pre>
 					</section>
 					<section id="good-for-more">
-						<h3>Good for more than just random library components!</h3>
+						<h3>Good for more than just
+							<br />random library components!</h3>
 						<img class="plain" src="img/avril-spray.gif" alt="">
-						<p>You can use the CVA to create reusable form elements instead of
-							drowning in eventEmitter soup!</p>
+						<p>You can use the CVA to create reusable form
+							<br /> elements instead of drowning in event emitter soup!</p>
 					</section>
 				</section>
 				<!----------------------------------------->
 				<section id="problem-4">
 					<section id="problem-4-overview">
-						<h2>Problem 4: I have a bunch of checkboxes and need to submit an array</h2>
+						<h2>Problem 4:</h2>
+						<p class="large">I have a bunch of checkboxes and
+						<br />need to submit an array of selected ids</p>
 					</section>
 					<section id="problem-4-cva">
 						<h3>Control Value Accessor to the rescue again!</h3>
@@ -1171,7 +1186,9 @@ export class MyCheckboxesComponent implements ControlValueAccessor {
 				<!----------------------------------------->
 				<section id="problem-5">
 					<section id="problem-5-overview">
-						<h2>Problem 5: I need to dynamically create and remove form controls & form groups</h2>
+						<h2>Problem 5:</h2>
+						<p class="large">I need to dynamically add and
+						<br />remove form controls & form groups</p>
 					</section>
 					<section id="form-image">
 						<img src="img/ingredient-form.png" alt="">
@@ -1281,18 +1298,19 @@ Object.keys(this.recipeForm.controls).forEach(field => {
 						<img class="plain" src="img/avril-wink.gif" alt="">
 					</section>
 					<section id="emitEvent-false">
-						<p>You can get into some sketchy situations listening for formControl
-							changes and acting on them.</p>
+						<p>You can get into some sketchy situations
+							<br />listening for formControl changes and acting on them.</p>
 							<div class="fragment">
 								<pre>
 									<code>
-	patchValue(value: any, opts: {
-	onlySelf?: boolean;
-	emitEvent?: boolean;
-	} = {}): void
+patchValue(value: any, opts: {
+  onlySelf?: boolean;
+  emitEvent?: boolean;
+} = {}): void
 									</code>
 								</pre>
-								<p>Take advantage of the options param and don't emit an event on your changes.</p>
+								<p>Take advantage of the options param
+									<br />and don't emit an event on your changes.</p>
 							</div>
 					</section>
 				</section>
@@ -1306,7 +1324,9 @@ Object.keys(this.recipeForm.controls).forEach(field => {
 						<li class="fragment">Maybe forms aren't so complicated</li>
 						<li class="fragment">Avril Lavigne is timeless</li>
 					</ul>
+					<br /><br />
 					<p class="fragment">Demo code:<a target="_blank" href="https://github.com/tehfedaykin/complicated-forms-app">	https://github.com/tehfedaykin/complicated-forms-app</a> </p>
+					<p class="fragment">Avril's New Single: <a target="_blank" href="https://www.youtube.com/watch?v=EKF6ghfcQic">Head Above Water</a> </p>
 				</section>
 				<!----------------------------------------->
 				<section id="questions">
