@@ -17,6 +17,8 @@ html * {
 body {
   background: #fdf6e3;
   background-image: url("../../img/spacebgdark.png");
+  background-repeat: no-repeat;
+  background-size: cover;
   background-color: #fdf6e3; }
 
 .reveal {
