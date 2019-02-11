@@ -1,1 +1,1 @@
-# GET YO LASH ON
+![The Control Value Accessor – Like a Wormhole in Space for Your Forms, Only More Useful!](/img/cvacover.png "The Control Value Accessor – Like a Wormhole in Space for Your Forms, Only More Useful! Cover Slide")
