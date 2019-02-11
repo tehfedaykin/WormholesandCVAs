@@ -10,6 +10,7 @@
  *********************************************/
 body {
   background: #111;
+  background-image: url("../../img/spacebgdark.png");
   background-color: #111; }
 
 .reveal {

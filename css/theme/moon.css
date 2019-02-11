@@ -16,6 +16,7 @@ html * {
  *********************************************/
 body {
   background: #002b36;
+  background-image: url("../../img/spacebgdark.png");
   background-color: #002b36; }
 
 .reveal {

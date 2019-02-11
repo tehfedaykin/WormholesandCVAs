@@ -68,6 +68,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
  *********************************************/
 body {
   background: #222;
+  background-image: url("../../img/spacebgdark.png");
   background-color: #222; }
 
 .reveal {

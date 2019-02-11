@@ -3,7 +3,6 @@
   "version": "3.7.0",
   "description": "False Lashes for the masses. Or at least for conference speakers",
   "homepage": "https://tehfedaykin.github.io/LashItIp",
- 
   "scripts": {
     "test": "grunt test",
     "start": "grunt serve",

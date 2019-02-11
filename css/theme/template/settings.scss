@@ -40,4 +40,5 @@ $selectionColor: #fff;
 // to return a background image or gradient
 @mixin bodyBackground() {
 	background: $backgroundColor;
+	background-image: url('../../img/spacebgdark.png');
 }
