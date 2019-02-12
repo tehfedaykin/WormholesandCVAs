@@ -180,27 +180,151 @@
 					<br /> it enables or disables the appropriate DOM element.</p>
 				</section>
 				<!----------------------------------------->
+				<section id="creating-custom-form">
+					<h2>Creating a custom form element</h2>
+				</section>
+				<section id="setup">
+					<h2>Sample setup</h2>
+					<pre><code data-trim>
+					import { Component } from '@angular/core';
+					import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+					
+					@Component({
+					  selector: 'app-root',
+						template: `
+						<form  [formGroup]="myForm">
+						  <div class="form-group">
+						    <label for="name">Name</label>
+						    <!-- a custom input here -->
+						  </div>
+						</form>`,
+					})
+          export class AppComponent {
+						myForm: FormGroup;
+						
+						constructor(private formBuilder: FormBuilder ) {
+              this.myForm = formBuilder.group({
+                name: new FormControl('testing')
+              });
+              this.onChanges();
+						}
+
+						onChanges() {
+              this.myForm.get('name').valueChanges.subscribe((val) => {
+								console.log(`val changed to ${val}`);
+							});
+					  }
+					}
+					</code></pre>
+				</section>
+				<section id="meh-component">
+					<p>wrapper component</p>
+					<pre><code data-trim>
+					import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+
+					@Component({
+					  selector: 'meh-component',
+					  template: `<input (change)="mehChange($event)" type="text" />`,
+					})
+					export class MehComponent implements OnInit {
+					  @Output() mehValueChange = new EventEmitter();
+
+					  mehChange($event) {
+					    this.mehValueChange.emit($event.currentTarget.value);
+					  }
+					}						
+					</code></pre>
+					<p>parent component w/ form</p>
+					<pre><code data-trim data-noescape>
+						changeListener(val) {
+						  this.myForm.get('name').patchValue(val);
+						}
+					</code></pre>
+				</section>
+				<section id="pitfalls">
+					<h2>pitfalls</h2>
+					<ul>
+						<li class="fragment">Managing additional methods for outputting</li>
+						<li class="fragment">Having to use additional method of .patchValue on form control</li>
+						<li class="fragment">Validation?!?!?!</li>
+					</ul>
+				</section>
 				<section id="cva applied">
 					<h2>Control Value Accessor Applied</h2>
+				</section>
+				<section id="implementation">
+					<h2>Implementation</h2>
+					<p>We need to register the `NG_VALUE_ACCESSOR` provider and implement the `ControlValueAccessor` methods.</p>
+				</section>
+				<section id="basic-wrapper">
+					<h2>Basic CVA Implementation</h2>
+					<pre><code data-trim>
+					import { Component } from '@angular/core';
+					import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+							
+					@Component({
+						selector: 'my-sweet-component',
+						template: `<input (change)="sweetChange($event)" type="text" />`,
+						providers: [{
+							provide: NG_VALUE_ACCESSOR,
+							useExisting: MySweetComponent,
+							multi: true
+						}]
+					})
+					export class MySweetComponent implements ControlValueAccessor {
+						_value: any;
+						onChange;
+						onTouched;
+
+						writeValue(val) {
+							this._value = val;
+						}
+						registerOnChange( fn : any ) : void {this.onChange = fn;}
+						registerOnTouched( fn : any ) : void {this.onTouched = fn;}
+						
+						sweetChange($event) {
+							this.writeValue($event.currentTarget.value);
+							this.onTouched();
+							this.onChange($event.currentTarget.value);
+						}
+					}	
+					</code></pre>
+				</section>
+				<section id="sweet-component-parent">
+					<h2>In form markup</h2>
+					<pre><code data-trim>
+						<form  [formGroup]="myForm">
+						  <div class="form-group">
+						    <label for="name">Name</label>
+                <my-sweet-component class="form-control" formControlName="name" ></my-sweet-component>
+						  </div>
+						</form>
+					</code></pre>
+				</section>
+				<section id="two-way-val">
+					<h2>Vals both ways!</h2>
+					<pre><code data-trim>
+					  export class MySweetComponent implements ControlValueAccessor {
+						  @Input() _value: any;
+						  ...
+					</code></pre>
 				</section>
 				<section id="key-concepts">
 					<h2>Key Concepts</h2>
 					<ul>
-						<li class="fragment">CVA is great for granular control of displaying to the UI and communicating with the forms API</li>
+						<li class="fragment">CVA is great for granular control of displaying
+							<br /> to the UI &amp; communicating with the forms API</li>
 						<li class="fragment">Keep your wrapper components dumb.</li>
 						<li class="fragment">Just input and output form values!</li>
 						<li class="fragment">Leave validation logic to the parent form component.</li>
 					</ul>
 				</section>
-				<section id="basic-wrapper">
-					<h2>Example 1: Basic Implementation</h2>
-				</section>
+			
 				<!----------------------------------------->
 				<section id="questions">
 					<h2>Questions?</h2>
-					<img style="height:300px" class="plain" src="img/lashbae.jpg" alt="Lash bae">
-					<p>Slides available at: <a href="https://tehfedaykin.github.io/LashItUp/">tehfedaykin.github.io/LashItUp</a></p>
-					<p class="small"><a href="https://open.spotify.com/user/tehfedaykin/playlist/3VYlb99AWaWQuU5lDlOORg?si=Mm9--QrcQJyT7cCvqLYXlA">🎶 Talk playlist 🎶</a> </p>
+					<img style="height:300px" class="plain" src="img/strangerconfused.gif" alt="Lash bae">
+					<p>Slides available at: <a href="https://tehfedaykin.github.io/WormholesandCVAs/">tehfedaykin.github.io/WormholesandCVAs</a></p>
 				</section>
 			</div>
 		</div>
