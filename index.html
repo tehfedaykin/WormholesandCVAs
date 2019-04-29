@@ -59,7 +59,7 @@
 						</div>
 					</div>
 					<ul class="small">
-						<li>JavaScript Developer</li>
+						<li>JavaScript Developer at Bitovi</li>
 						<li>Community Organizer</li>
 						<li>Crazy plant lady</li>
 					</ul>
@@ -69,17 +69,16 @@
 					<h2>What is a wormhole? </h2>
 				</section>
 				<section id="wormhole-definition">
-					<h3>a theoretical structure of space-time envisioned as a tunnel connecting points that are separated in space and time</h3>
+					<h3>Wormhole </h3>
+					<p>A theoretical structure of space-time envisioned as a tunnel connecting 
+						points that are separated in space and time.</p>
 				</section>
 				<section id="wormhole-image">
 					<img class="plain" src="img/wormhole.webp" />
 				</section>
 				<section id="demogorgon">
-						<img class="plain" src="img/demogorgon.gif" />
+						<img class="plain" width="50%" src="img/demogorgon.gif" />
 					</section>
-				<section id="neil-degrasse">
-					<img class="plain" src="img/neildegrassespace.gif" />
-				</section>
 				<!----------------------------------------->
 				<section id="CVA">
 				<h2>The Control Value Accessor</h2>
@@ -97,12 +96,10 @@
 						xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> 
 						<style>
 								.text { font: bold 30px sans-serif; fill: #ffffff; stroke:#000000;stroke-width:1px; }
-						
 							</style>      
 						<image xlink:href="img/wormhole.webp" height="100%" />
 						<text x="150" y="120" class="text" >Custom Directive</text>
 						<text x="300" y="280" class="text" transform="rotate(90,350,300)" style="fill: #000">Value</text>
-
 						<text x="200" y="400" class="text">Form</text>
 					</svg>
 				</section>
@@ -112,116 +109,41 @@
 					<p>How do I use it?</p>
 					<img class="plain" src="img/curiositydoor.gif" />
 				</section>
-				<section id="typescript-interface">
-					<h2>Typescript with Classes & Interfaces</h2>
-					<p class="fragment">Classes implementing interfaces <b>must</b> follow the structure described by the interface.</p>
-				</section>
-				<section id="cva-interface">
-					<h2>CVA Interface</h2>
-					<pre><code data-trim data-noescape>
-					interface ControlValueAccessor {
-					  writeValue(obj: any): void
-					  registerOnChange(fn: any): void
-					  registerOnTouched(fn: any): void
-					  setDisabledState(isDisabled: boolean)?: void
-					}
-					</code></pre>
-				</section>
-				<section id="writeValue">
-					<h2>write Value</h2>
-					<pre><code data-trim data-noescape>
-					interface ControlValueAccessor {
-					  <mark>writeValue(obj: any): void</mark>
-					  registerOnChange(fn: any): void
-					  registerOnTouched(fn: any): void
-					  setDisabledState(isDisabled: boolean)?: void
-					}
-					</code></pre>
-					<p><br />Writes a new value to the element.</p>
-				</section>
-				<section id="onChange">
-					<h2>register On Change</h2>
-					<pre><code data-trim data-noescape>
-					interface ControlValueAccessor {
-					  writeValue(obj: any): void
-					  <mark>registerOnChange(fn: any): void</mark>
-					  registerOnTouched(fn: any): void
-					  setDisabledState(isDisabled: boolean)?: void
-					}
-					</code></pre>
-					<p><br />Registers a callback function that is called when
-					<br />the control's value changes in the UI.</p>
-				</section>
-				<section id="onTouched">
-					<h2>register On Touched</h2>
-					<pre><code data-trim data-noescape>
-					interface ControlValueAccessor {
-					  writeValue(obj: any): void
-					  registerOnChange(fn: any): void
-					  <mark>registerOnTouched(fn: any): void</mark>
-					  setDisabledState(isDisabled: boolean)?: void
-					}
-					</code></pre>
-					<p><br />Registers a callback function is called by the forms
-					<br />API on initialization to update the form model on blur.</p>
-				</section>
-				<section id="setDisabled">
-					<h2>set Disabled State</h2>
-					<pre><code data-trim data-noescape>
-					interface ControlValueAccessor {
-					  writeValue(obj: any): void
-					  registerOnChange(fn: any): void
-					  registerOnTouched(fn: any): void
-					  <mark>setDisabledState(isDisabled: boolean)?: void</mark>
-					}
-					</code></pre>
-					<p><br />Function that is called by the forms API when the control 
-					<br />status changes to or from 'DISABLED'. Depending on the status, 
-					<br /> it enables or disables the appropriate DOM element.</p>
-				</section>
 				<!----------------------------------------->
-				<section id="creating-custom-form">
-					<h2>Creating a custom form element</h2>
+				<section id="app-gif">
+					<h2>Let's build an app!</h2>
+					<img class="plain" src="img/galaxyrating.gif" />
 				</section>
-				<section id="setup">
-					<h2>Sample setup</h2>
-					<pre><code data-trim>
-					import { Component } from '@angular/core';
-					import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-					
-					@Component({
-					  selector: 'app-root',
-						template: `
-						<form  [formGroup]="myForm">
-						  <div class="form-group">
-						    <label for="name">Name</label>
-						    <!-- a custom input here -->
-						  </div>
-						</form>`,
-					})
-          export class AppComponent {
-						myForm: FormGroup;
-						
-						constructor(private formBuilder: FormBuilder ) {
-              this.myForm = formBuilder.group({
-                name: new FormControl('testing')
-              });
-              this.onChanges();
-						}
-
-						onChanges() {
-              this.myForm.get('name').valueChanges.subscribe((val) => {
-								console.log(`val changed to ${val}`);
-							});
-					  }
-					}
-					</code></pre>
+				<section id="example-scenario">
+					<h2>Example Form Scenario</h2>
+					<p class="fragment"><i>I have created custom components that I would like to 
+						act as form elements in my reactive form.</i></p>
+					<ol>
+						<li class="fragment">A typeahead component that displays one value to the user, <br />
+							but passes an id as it's form value</li>
+						<li class="fragment">A star rating component that passes a rating number as it's form value</li>
+					</ol>
 				</section>
-				<section id="meh-component">
-					<p>wrapper component</p>
-					<pre><code data-trim>
-					import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-
+				<section id="reactive-form-crash-course">
+					<h2>Reactive Forms Crash Course</h2>
+					<ul>
+						<li class="fragment">Reactive Form: a model-driven approach to handling form inputs whose values change over time. </li>
+						<li class="fragment">Form Control: basic form building block to create an input/radio/select/etc. <i>Tracks the value and validation status.</i></li>
+						<li class="fragment">Form Group: a group of form controls.</li>
+						<li class="fragment">FormControlName: directive that ties form element to a formControl.</li>
+					</ul>
+				</section>
+				<section id="our-reactive-form">
+					<p>Our Reactive Form</p>
+					<img class="plain" src="img/reactive-form.png" />
+				</section>
+				<section id="form-markup">
+					<img class="plain" src="img/reactive-form-html.png" />
+				</section>
+				<section id="meh-component-pt1">
+					<p>Solution #1</p>
+					<img class="plain" src="img/output-component.png" />
+					<!-- <pre><code data-trim>
 					@Component({
 					  selector: 'meh-component',
 					  template: `<input (change)="mehChange($event)" type="text" />`,
@@ -233,18 +155,21 @@
 					    this.mehValueChange.emit($event.currentTarget.value);
 					  }
 					}						
-					</code></pre>
+					</code></pre> -->
+				</section>
+				<section id="meh-component-pt2">
 					<p>parent component w/ form</p>
-					<pre><code data-trim data-noescape>
-						changeListener(val) {
-						  this.myForm.get('name').patchValue(val);
-						}
-					</code></pre>
+					<img class="plain" src="img/output-parent.png" />
+					<!-- <pre><code data-trim data-noescape>
+							changeListener(val) {
+							  this.myForm.get('name').setValue(val);
+							}
+						</code></pre> -->
 				</section>
 				<section id="pitfalls">
 					<h2>pitfalls</h2>
 					<ul>
-						<li class="fragment">Managing additional methods for outputting</li>
+						<li class="fragment">Managing additional methods for listening to change events</li>
 						<li class="fragment">Having to use additional method of .patchValue on form control</li>
 						<li class="fragment">Validation?!?!?!</li>
 					</ul>
@@ -252,13 +177,166 @@
 				<section id="cva applied">
 					<h2>Control Value Accessor Applied</h2>
 				</section>
+				<section id="cva-interface">
+					<p>CVA Interface</p>
+					<img class="plain" src="img/cva-interface.png" />
+					<!-- <pre><code data-trim data-noescape>
+					interface ControlValueAccessor {
+						writeValue(obj: any): void
+						registerOnChange(fn: any): void
+						registerOnTouched(fn: any): void
+						setDisabledState(isDisabled: boolean)?: void
+					}
+					</code></pre> -->
+				</section>
+				<section id="typescript-interface">
+					<h2>Typescript with Classes & Interfaces</h2>
+					<p class="fragment">Classes implementing interfaces <b>must</b> follow the structure described by the interface.</p>
+				</section>
+				<section id="writeValue">
+					<p>write Value</p>
+					<img class="plain" src="img/cva-write.png" />
+					<!-- <pre><code data-trim data-noescape>
+					interface ControlValueAccessor {
+						<mark>writeValue(obj: any): void</mark>
+						registerOnChange(fn: any): void
+						registerOnTouched(fn: any): void
+						setDisabledState(isDisabled: boolean)?: void
+					}
+					</code></pre> -->
+					<p>Writes a new value to the element. This will be called when the FormControl is instantiated AND when patchValue or setValue is called.</p>
+				</section>
+				<section id="wormhole-writevalue">
+					<svg height="500px" width="700px"
+						xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> 
+						<style>
+								.text { font: bold 30px sans-serif; fill: #ffffff; stroke:#000000;stroke-width:1px; }
+							</style>      
+						<image xlink:href="img/wormhole.webp" height="100%" />
+						<text x="150" y="120" class="text" >component ui display "Jennifer"</text>
+						<text x="240" y="280" class="text" transform="rotate(90,350,300)" style="fill: #000"><- "Jennifer"</text>
+						<text x="20" y="400" class="text">
+							<tspan dy="1.2em" x="10">name = new FormControl({value: 'Jennifer'})</tspan>
+							<tspan dy="1.2em" x="10">name.patchValue('Jennifer')</tspan>
+						</text>
+					</svg>
+				</section>
+				<section id="onChange">
+					<p>register OnChange</p>
+					<img class="plain" src="img/cva-change.png" />
+					<!-- <pre><code data-trim data-noescape>
+					interface ControlValueAccessor {
+						writeValue(obj: any): void
+						<mark>registerOnChange(fn: any): void</mark>
+						registerOnTouched(fn: any): void
+						setDisabledState(isDisabled: boolean)?: void
+					}
+					</code></pre> -->
+					<p>Registers a callback function that is called when
+					<br />the control's value changes in the UI.</p>
+				</section>
+				<section id="wormhole-onchange">
+					<svg height="500px" width="700px"
+						xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> 
+						<style>
+								.text { font: bold 30px sans-serif; fill: #ffffff; stroke:#000000;stroke-width:1px; }
+								.small-text { font: bold 20px sans-serif; fill: #ffffff; stroke:#000000;stroke-width:1px;}
+							</style>      
+						<image xlink:href="img/wormhole.webp" height="100%" />
+						<text x="150" y="120" class="text" >component onChange("Alisa")</text>
+						<text x="245" y="280" class="small-text" transform="rotate(90,350,300)" style="fill: #000">changeEv("Alisa")</text>
+						<text x="100" y="370" class="text">
+							<tspan dy="1.2em" x="40">name.valueChanges.subscribe((val) => {</tspan>
+							<tspan dy="1.2em" x="60">console.log(val) //logs Alisa</tspan>
+							<tspan dy="1.2em" x="40">});</tspan>
+						</text>
+					</svg>
+				</section>
+				<section id="onTouched">
+					<p>register OnTouched</p>
+					<img class="plain" src="img/cva-touch.png" />
+					<!-- <pre><code data-trim data-noescape>
+					interface ControlValueAccessor {
+						writeValue(obj: any): void
+						registerOnChange(fn: any): void
+						<mark>registerOnTouched(fn: any): void</mark>
+						setDisabledState(isDisabled: boolean)?: void
+					}
+					</code></pre> -->
+					<p>Registers a callback function is called by the forms
+					<br />API on initialization to update the form model on blur.</p>
+				</section>
+				<section id="wormhole-ontouched">
+					<svg height="500px" width="700px"
+						xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> 
+						<style>
+								.text { font: bold 30px sans-serif; fill: #ffffff; stroke:#000000;stroke-width:1px; }
+								.small-text { font: bold 20px sans-serif; fill: #ffffff; stroke:#000000;stroke-width:1px;}
+							</style>      
+						<image xlink:href="img/wormhole.webp" height="100%" />
+						<text x="150" y="120" class="text" >component onTouched()</text>
+						<text x="265" y="280" class="small-text" transform="rotate(90,350,300)" style="fill: #000">touchEvent -></text>
+						<text x="100" y="370" class="text">
+								<tspan dy="1.2em" x="20">name.touched returns true</tspan>
+							<tspan dy="1.2em" x="20">component gets class "ng-touched"</tspan>
+						</text>
+					</svg>
+				</section>
+				<section id="setDisabled">
+					<p>set Disabled State</p>
+					<img class="plain" src="img/cva-disabled.png" />
+					<!-- <pre><code data-trim data-noescape>
+					interface ControlValueAccessor {
+						writeValue(obj: any): void
+						registerOnChange(fn: any): void
+						registerOnTouched(fn: any): void
+						<mark>setDisabledState(isDisabled: boolean)?: void</mark>
+					}
+					</code></pre> -->
+					<p>Function that is called by the forms API when the control status changes to or from 'DISABLED'. 
+						This will be called when the FormControl is instantiated IF the disabled key is present AND when .enable() or .disable() is called.</p>
+				</section>
+				<section id="wormhole-setdisabled">
+						<svg height="500px" width="700px"
+							xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> 
+							<style>
+									.text { font: bold 30px sans-serif; fill: #ffffff; stroke:#000000;stroke-width:1px; }
+									.small-text { font: bold 20px sans-serif; fill: #ffffff; stroke:#000000;stroke-width:1px;}
+								</style>      
+							<image xlink:href="img/wormhole.webp" height="100%" />
+							<text x="150" y="120" class="text" >component setDisabledState(true)</text>
+							<text x="265" y="280" class="text" transform="rotate(90,350,300)" style="fill: #000"><- true</text>
+							<text x="200" y="370" class="text">name.disable()</text>
+						</svg>
+					</section>
 				<section id="implementation">
 					<h2>Implementation</h2>
-					<p>We need to register the `NG_VALUE_ACCESSOR` provider and implement the `ControlValueAccessor` methods.</p>
+					<p>We need to register the <b>NG_VALUE_ACCESSOR</b> provider and implement the <b>ControlValueAccessor</b> methods.</p>
+				</section>
+				<section id="NG_VALUE_ACCESSOR">
+					<img class="plain" style="height:500px" src="img/NG_VALUE_ACCESSOR.png" />
+					<p class="small">The NG_VALUE_ACCESSOR is used to register the component as a provider for the controlValueAccessor, and 
+							because this will register the component early we'll need to use forwardRef to refer to it.</p>
+					<!-- <pre><code data-trim>
+						import { NG_VALUE_ACCESSOR } from '@angular/forms';
+
+						@Component({
+							selector: 'my-sweet-component',
+							template: `<input (change)="sweetChange($event)" type="text" />`,
+							providers: [{
+								provide: NG_VALUE_ACCESSOR,
+								useExisting: forwardRef(() => MySweetComponent),
+								multi: true
+							}]
+						})
+						export class MySweetComponent {
+						}
+					</code></pre> -->
 				</section>
 				<section id="basic-wrapper">
-					<h2>Basic CVA Implementation</h2>
-					<pre><code data-trim>
+					<p>Basic CVA implementation</p>
+					<img class="plain" style="height:600px" src="img/CVA.png" />
+					<!-- <pre><code data-trim>
 					import { Component } from '@angular/core';
 					import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 							
@@ -267,7 +345,7 @@
 						template: `<input (change)="sweetChange($event)" type="text" />`,
 						providers: [{
 							provide: NG_VALUE_ACCESSOR,
-							useExisting: MySweetComponent,
+							useExisting: forwardRef(() => MySweetComponent),
 							multi: true
 						}]
 					})
@@ -288,26 +366,77 @@
 							this.onChange($event.currentTarget.value);
 						}
 					}	
-					</code></pre>
+					</code></pre> -->
 				</section>
 				<section id="sweet-component-parent">
-					<h2>In form markup</h2>
-					<pre><code data-trim>
-						<form  [formGroup]="myForm">
-						  <div class="form-group">
-						    <label for="name">Name</label>
-                <my-sweet-component class="form-control" formControlName="name" ></my-sweet-component>
-						  </div>
-						</form>
-					</code></pre>
+					<p>In form markup</p>
+					<!-- <pre><code data-trim>
+					<form [formGroup]="myForm">
+						<div class="form-group">
+							<label for="name">Name</label>
+							<my-sweet-component class="form-control" formControlName="name"></my-sweet-component>
+						</div>
+					</form>
+					</code></pre> -->
+					<img class="plain" src="img/CVA-markup.png" />
+					<div class="fragment">
+						<p class="small">same as ...</p>
+						<img class="plain" src="img/CVA-markup-alt.png" />
+					</div>
 				</section>
 				<section id="two-way-val">
-					<h2>Vals both ways!</h2>
-					<pre><code data-trim>
-					  export class MySweetComponent implements ControlValueAccessor {
-						  @Input() _value: any;
-						  ...
-					</code></pre>
+					<p>Getting/setting the form value</p>
+					<img class="plain" src="img/cva-changes-hookup.png" />
+				</section>
+				<section id="disabled-example">
+					<p>Disabled example</p>
+					<img class="plain" src="img/cva-disable.png" />
+				</section>
+				<section id="back-to-og-problem">
+					<h2>Back to Our Original Problem</h2>
+					<p>Using CVA in practice for typeahead and rating form controls</p>
+				</section>
+				<section id="typeahead-component-markup">
+					<p>Typeahead markup</p>
+					<p class="small">(using <a href="https://valor-software.com/ngx-bootstrap/#/typeahead" target="_blank">ngx-bootstrap</a> typeahead)</p>
+					<img class="plain" src="img/typeahead-html.png" />
+				</section>
+				<section id="typeahead-component">
+					<p>Typeahead component</p>
+					<img class="plain" style="height:600px" src="img/typeahead-ts.png" />
+				</section>
+				<section id="rating-component-html">
+					<p>Star Rating Markup</p>
+					<img class="plain" src="img/star-html.png" />
+				</section>
+				<section id="rating-component">
+					<p>Star Rating Component</p>
+					<img class="plain" style="height:600px" src="img/star-ts.png" />
+				</section>
+				<section id="testing">
+					<h2>Testing our CVA Components</h2>
+					<p>Things we care about:</p>
+					<ul>
+						<li class="fragment">Wormholes aren't unit testable, CVA components are!</li>
+						<li class="fragment">Testing CVA methods communicate with formControl as expected</li>
+						<li class="fragment">Testing setting/displaying values when formControl is initialized with value</li>
+						<li class="fragment">Testing disabling/enabling of the CVA component</li>
+						<li class="fragment">Testing interacting with the CVA component sets validation classes as expected.</li>
+					</ul>
+				</section>
+				<section id="test-setup">
+					<p>Test Setup - Creating a test host component & using ViewChild</p>
+					<img class="plain" style="height:600px" src="img/typeahead-test-setup.png" />
+				</section>
+				<section id="typeahead-test-change">
+					<p>Testing Change Event</p>
+					<img class="plain" src="img/typeahead-test-change.png" />
+					<p>We care that the formControl is being notified of the change when an option is selected.</p>
+				</section>
+				<section id="typeahead-test-touch">
+					<p>Testing Touch Event</p>
+					<img class="plain" src="img/typeahead-test-touch.png" />
+					<p>We care that the formControl element is getting the ng-touched class and touched property true.</p>
 				</section>
 				<section id="key-concepts">
 					<h2>Key Concepts</h2>
@@ -317,14 +446,15 @@
 						<li class="fragment">Keep your wrapper components dumb.</li>
 						<li class="fragment">Just input and output form values!</li>
 						<li class="fragment">Leave validation logic to the parent form component.</li>
+						<li class="fragment">CVA can be used with any form API <br />- including template driven</li>
 					</ul>
 				</section>
-			
 				<!----------------------------------------->
 				<section id="questions">
 					<h2>Questions?</h2>
-					<img style="height:300px" class="plain" src="img/strangerconfused.gif" alt="Lash bae">
-					<p>Slides available at: <a href="https://tehfedaykin.github.io/WormholesandCVAs/">tehfedaykin.github.io/WormholesandCVAs</a></p>
+					<img style="height:300px" class="plain" src="img/strangerconfused.gif" alt="Naomi confused">
+					<p>Slides available at: <a href="https://tehfedaykin.github.io/WormholesandCVAs/" target="_blank">tehfedaykin.github.io/WormholesandCVAs</a></p>
+					<p>Galaxy Rating App: <a href="https://github.com/tehfedaykin/galaxy-rating-app" target="_blank">https://github.com/tehfedaykin/galaxy-rating-app</a></a></p>
 				</section>
 			</div>
 		</div>
@@ -352,12 +482,6 @@
 				]
 			});
 
-			Reveal.addEventListener( 'slidechanged', function( event ) {
-				// event.previousSlide, event.currentSlide, event.indexh, event.indexv
-				if(event.currentSlide.getAttribute('id') === 'thankunext') {
-					document.getElementById('conorvideo').play();
-				}
-			});
 		</script>
 	</body>
 </html>
