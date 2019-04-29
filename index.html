@@ -174,7 +174,7 @@
 						<li class="fragment">Validation?!?!?!</li>
 					</ul>
 				</section>
-				<section id="cva applied">
+				<section id="cva-applied">
 					<h2>Control Value Accessor Applied</h2>
 				</section>
 				<section id="cva-interface">
@@ -419,7 +419,7 @@
 					<ul>
 						<li class="fragment">Wormholes aren't unit testable, CVA components are!</li>
 						<li class="fragment">Testing CVA methods communicate with formControl as expected</li>
-						<li class="fragment">Testing setting/displaying values when formControl is initialized with value</li>
+						<li class="fragment">Testing setting/displaying values when formControl is initialized with value or gets it's value update</li>
 						<li class="fragment">Testing disabling/enabling of the CVA component</li>
 						<li class="fragment">Testing interacting with the CVA component sets validation classes as expected.</li>
 					</ul>
@@ -429,7 +429,7 @@
 					<img class="plain" style="height:600px" src="img/typeahead-test-setup.png" />
 				</section>
 				<section id="typeahead-test-change">
-					<p>Testing Change Event</p>
+					<p>Testing Typeahead Change Event</p>
 					<img class="plain" src="img/typeahead-test-change.png" />
 					<p>We care that the formControl is being notified of the change when an option is selected.</p>
 				</section>
@@ -437,6 +437,21 @@
 					<p>Testing Touch Event</p>
 					<img class="plain" src="img/typeahead-test-touch.png" />
 					<p>We care that the formControl element is getting the ng-touched class and touched property true.</p>
+				</section>
+				<section id="typeahead-test-writevalue">
+					<p>Testing setValue</p>
+					<img class="plain" src="img/typeahead-test-writevalue.png" />
+					<p>We care that the ui selects the appropriate dropdown when writeValue is called.</p>
+				</section>
+				<section id="rating-test-change">
+					<p>Testing Rating Change Event</p>
+					<img class="plain" src="img/rating-test-change.png" />
+					<p>We care that the formControl is being notified of the change when a star is clicked.</p>
+				</section>
+				<section id="rating-test-disabled">
+					<p>Testing Rating Disabling</p>
+					<img class="plain" src="img/rating-test-disable.png" />
+					<p>We care that component implements "disabled" functionality correctly.</p>
 				</section>
 				<section id="key-concepts">
 					<h2>Key Concepts</h2>
